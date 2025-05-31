@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "469720624952",
+    "project_id": "app-mensagens-b5458",
+    "storage_bucket": "app-mensagens-b5458.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:469720624952:android:d5d497b078d652b3a71bcd",
+        "android_client_info": {
+          "package_name": "aplicativode_mensagens.pach.one"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCALZUoGcvrPRGIZ7Xzz8UoNviNXofPgVc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
