@@ -1,12 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Image, Animated, Modal, Platform } from 'react-native';
-import { Menu, X, Camera, CreditCard as Edit2 } from 'lucide-react-native';
+import { Menu, X, Camera, CreditCard as Edit2, MessageSquare, Users, Settings, LogOut } from 'lucide-react-native';
 import { useAuth } from '@/context/AuthContext';
 import { COLORS } from '@/constants/Colors';
 import * as ImagePicker from 'expo-image-picker';
+import { useRouter } from 'expo-router';
 
 export default function DrawerMenu() {
-  const { currentUser, updateCustomer } = useAuth();
+  const router = useRouter();
+  const { currentUser, updateCustomer, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -50,6 +52,43 @@ export default function DrawerMenu() {
     }
     setIsEditing(false);
   };
+
+  const handleLogout = () => {
+    logout();
+    router.replace('/auth');
+    toggleDrawer();
+  };
+
+  const navigationItems = [
+    {
+      icon: MessageSquare,
+      label: 'Chats',
+      onPress: () => {
+        router.push('/(tabs)/chats');
+        toggleDrawer();
+      }
+    },
+    {
+      icon: Users,
+      label: 'Contatos',
+      onPress: () => {
+        router.push('/(tabs)/contacts');
+        toggleDrawer();
+      }
+    },
+    {
+      icon: Settings,
+      label: 'Configurações',
+      onPress: () => {
+        router.push('/(tabs)/settings');
+        toggleDrawer();
+      }
+    }
+  ];
+
+  if (!currentUser) {
+    return null;
+  }
 
   return (
     <>
@@ -168,6 +207,27 @@ export default function DrawerMenu() {
                   <Edit2 size={20} color={COLORS.primary} />
                   <Text style={styles.editButtonText}>Editar Perfil</Text>
                 </TouchableOpacity>
+
+                <View style={styles.navigationSection}>
+                  {navigationItems.map((item, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={styles.navigationItem}
+                      onPress={item.onPress}
+                    >
+                      <item.icon size={24} color={COLORS.textPrimary} />
+                      <Text style={styles.navigationText}>{item.label}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+
+                <TouchableOpacity 
+                  style={styles.logoutButton}
+                  onPress={handleLogout}
+                >
+                  <LogOut size={24} color={COLORS.danger} />
+                  <Text style={styles.logoutText}>Sair</Text>
+                </TouchableOpacity>
               </View>
             )}
           </Animated.View>
@@ -220,6 +280,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   profileView: {
+    flex: 1,
     padding: 20,
   },
   profileHeader: {
@@ -283,13 +344,45 @@ const styles = StyleSheet.create({
     padding: 12,
     backgroundColor: COLORS.backgroundLight,
     borderRadius: 8,
-    marginTop: 20,
+    marginBottom: 30,
   },
   editButtonText: {
     marginLeft: 8,
     fontSize: 16,
     fontFamily: 'Inter-Medium',
     color: COLORS.primary,
+  },
+  navigationSection: {
+    flex: 1,
+    marginTop: 20,
+  },
+  navigationItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 8,
+  },
+  navigationText: {
+    marginLeft: 16,
+    fontSize: 16,
+    fontFamily: 'Inter-Medium',
+    color: COLORS.textPrimary,
+  },
+  logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.border,
+    marginTop: 'auto',
+  },
+  logoutText: {
+    marginLeft: 8,
+    fontSize: 16,
+    fontFamily: 'Inter-Medium',
+    color: COLORS.danger,
   },
   editForm: {
     padding: 20,
