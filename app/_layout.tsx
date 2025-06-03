@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
 import { AuthProvider } from '@/context/AuthContext';
-import Footer from '@/components/Footer';
+import DrawerMenu from '@/components/DrawerMenu';
 
 export default function RootLayout() {
   useFrameworkReady();
@@ -17,7 +17,7 @@ export default function RootLayout() {
           <Stack.Screen name="+not-found" options={{ title: 'Not Found' }} />
         </Stack>
         <StatusBar style="auto" />
-        <Footer />
+        <DrawerMenu />
       </View>
     </AuthProvider>
   );
